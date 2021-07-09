@@ -23,7 +23,7 @@ void crudeDelay(uint32_t iterations)
 
 void boardInit(void)
 {
-    sysconEnableClocks(SYSCON, CLKCTRL0_IOCON | CLKCTRL0_SWM, CLKCTRL1_NONE);
+    sysconEnableClocks(SYSCON, CLKCTRL0_UART0 | CLKCTRL0_IOCON | CLKCTRL0_SWM, CLKCTRL1_NONE);
     // setup GPIO pins
     ioconSetupPin(IOCON, IOCON_UART_RX, IOCON_MODE_PULLUP);
     ioconSetupPin(IOCON, IOCON_UART_TX, IOCON_MODE_INACTIVE);
@@ -44,4 +44,9 @@ void boardInit(void)
     sysconDisableClocks(SYSCON, CLKCTRL0_IOCON | CLKCTRL0_SWM, CLKCTRL1_NONE);
     // setup systick
     SysTick_Config(CLOCK_AHB / TICKS_PER_S);
+    // setup UART
+    sysconPeripheralClockSelect(SYSCON, UART0CLKSEL, CLKSRC_MAIN);
+    usartSetBaud(UART_DEBUG, CLOCK_MAIN, UART_BAUD_RATE);
+    usartSetConfig(UART_DEBUG, DATALEN_8, PARITY_NONE, STOPLEN_1, 0);
+    usartTXEnable(UART_DEBUG);
 }

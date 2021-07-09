@@ -19,5 +19,6 @@ BOARD = proto_board
 # project sources
 FILES += $(PROJECT)/src/main.cpp \
 $(PROJECT)/src/$(BOARD).cpp \
+$(PROJECT)/src/stream_uart.cpp
 
 INCLUDES += -I$(PROJECT)/inc

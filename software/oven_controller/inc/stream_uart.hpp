@@ -21,35 +21,11 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-/*
-Datastream that points to the user facing UART interface
-*/
+#ifndef STREAM_UART_HPP
+#define STREAM_UART_HPP
 
-#include <results.h>
-#include <stream_uart.hpp>
-#include <board.hpp>
+#include <datastream.h>
 
-const static char streamUartName[] = "uartStream";
-result writeUart(const char *c);
-result readUart(char *c);
-const datastreamChar_t streamUart = {writeUart, readUart, streamUartName};
+extern const datastreamChar_t streamUart;
 
-result writeUart(const char *c)
-{
-    while((usartGetStatus(UART_DEBUG) & USART_STAT_TXRDY) == 0) 
-        ;
-    usartSendData(UART_DEBUG, *c);
-    return noError;
-}
-
-result readUart(char *c)
-{
-    if((usartGetStatus(UART_DEBUG) & USART_STAT_RXRDY) != 0)
-    {
-        *c = usartReadData(UART_DEBUG);
-        return noError;
-    }
-    else
-        return streamEmtpy;       
-}
-
+#endif
