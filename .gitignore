@@ -1,0 +1,49 @@
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+build/
+Debug/
+Release/
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+bin/
+
+# miscellanious generated files
+*.log
+disassemblies/
+
+# doxygen output
+doxyOutput/
+
+#vscode files that are better ignored
+settings.json
+
+#kicad temporaries
+*.kicad_pcb-bak
+*.sch-bak
+*.net
+*.tmp
+*.bak
+_autosave*
+
+# freecad backup files
+*.FCStd?
+
+# ignore STL files, you can add them by forcing it
+*.stl

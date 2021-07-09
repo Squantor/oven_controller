@@ -1,0 +1,15 @@
+[submodule "electronics/squantorPcbLibrary"]
+	path = electronics/squantorPcbLibrary
+	url = git@github.com:Squantor/squantorPcbLibrary.git
+[submodule "software/squantorMinUnit"]
+	path = software/squantorMinUnit
+	url = git@github.com:Squantor/squantorMinUnit.git
+[submodule "software/squantorLibC"]
+	path = software/squantorLibC
+	url = git@github.com:Squantor/squantorLibC.git
+[submodule "software/squantorLibEmbedded"]
+	path = software/squantorLibEmbedded
+	url = git@github.com:Squantor/squantorLibEmbedded.git
+[submodule "software/libMcuLL"]
+	path = software/libMcuLL
+	url = git@github.com:Squantor/libMcuLL.git
