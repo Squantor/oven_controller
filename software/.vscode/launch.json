@@ -16,14 +16,14 @@
             "autorun": [
                 "file ${workspaceFolder}/bin/oven_controller/debug/oven_controller.elf",
                 "monitor tpwr enable",
+                "sleep 1",
                 "monitor swdp_scan",
                 "attach 1",
                 "set mem inaccessible-by-default off",
                 "set {int}0x40048000 = 2",
                 "load ${workspaceFolder}/bin/oven_controller/debug/oven_controller.elf",
                 "set {int}0x40048000 = 2",
-                "compare-sections",
-                "b main"
+                "compare-sections"
             ],
             "preLaunchTask": "build oven controller",
             "gdbpath": "/home/abilos/programs/gcc-arm-none-eabi-9-2020-q2-update/bin//arm-none-eabi-gdb"
