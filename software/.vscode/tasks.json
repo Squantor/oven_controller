@@ -7,17 +7,17 @@
             "label": "build PC example",
             "type": "shell",
             "command": "make PROJECT=PC config=debug -j20",
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
+            "group": "build",
             "problemMatcher": "$gcc"
         },
         {
             "label": "build oven controller",
             "type": "shell",
             "command": "make PROJECT=oven_controller config=debug -j20",
-            "group": "build",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
             "problemMatcher": "$gcc"
         },
         {
