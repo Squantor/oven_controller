@@ -6,6 +6,13 @@
  */
 #include <board.hpp>
 
+extern "C" 
+{
+    void SysTick_Handler(void)
+    {
+        __NOP();
+    }
+}
 
 int main()
 {
@@ -13,5 +20,6 @@ int main()
     while (1) 
     {
         __NOP();
+        __WFI();
     }
 }
