@@ -14,47 +14,16 @@
             "problemMatcher": "$gcc"
         },
         {
-            "label": "build LPC1114_323 debug example",
+            "label": "build oven controller",
             "type": "shell",
-            "command": "make PROJECT=LPC1114_323 config=debug -j20",
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "problemMatcher": "$gcc"
-        },
-        {
-            "label": "build LPC1125 debug example",
-            "type": "shell",
-            "command": "make PROJECT=LPC1125 config=debug -j20",
-            "group": "build",
-            "problemMatcher": "$gcc"
-        },
-        {
-            "label": "build LPC845 debug example",
-            "type": "shell",
-            "command": "make PROJECT=LPC845 config=debug -j20",
-            "group": "build",
-            "problemMatcher": "$gcc"
-        },
-        {
-            "label": "build LPC824 example",
-            "type": "shell",
-            "command": "make PROJECT=LPC824 -j20",
-            "group": "build",
-            "problemMatcher": "$gcc"
-        },
-        {
-            "label": "build LPC812 example",
-            "type": "shell",
-            "command": "make PROJECT=LPC812 -j20",
+            "command": "make PROJECT=oven_controller config=debug -j20",
             "group": "build",
             "problemMatcher": "$gcc"
         },
         {
             "label": "clean",
             "type": "shell",
-            "command": "make  PROJECT=LPC812 clean",
+            "command": "make clean",
             "problemMatcher": [
                 "$gcc"
             ]

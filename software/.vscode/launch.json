@@ -4,6 +4,31 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+    
+        {
+            "type": "gdb",
+            "request": "attach",
+            "name": "Debug Microcontroller",
+            "target": "extended-remote /dev/ttyACM0",
+            "executable": "${workspaceFolder}/bin/oven_controller/debug/oven_controller.elf",
+            "cwd": "${workspaceRoot}",
+            "internalConsoleOptions": "openOnFirstSessionStart",
+            "autorun": [
+                "file ${workspaceFolder}/bin/oven_controller/debug/oven_controller.elf",
+                "monitor tpwr enable",
+                "monitor swdp_scan",
+                "attach 1",
+                "set mem inaccessible-by-default off",
+                "set {int}0x40048000 = 2",
+                "load ${workspaceFolder}/bin/oven_controller/debug/oven_controller.elf",
+                "set {int}0x40048000 = 2",
+                "compare-sections",
+                "b main"
+            ],
+            "preLaunchTask": "build oven controller",
+            "gdbpath": "/home/abilos/programs/gcc-arm-none-eabi-9-2020-q2-update/bin//arm-none-eabi-gdb"
+        },
+        /*
         {
             "name": "(gdb) Launch",
             "type": "cppdbg",
@@ -23,69 +48,6 @@
                 }
             ],
             "preLaunchTask": "build PC example",
-        },
-        /*
-        {
-            "name": "run LPC1125 debug example",
-            "type": "cppdbg",
-            "request": "launch",
-            // "targetArchitecture": "x86_64",
-            "program": "${workspaceFolder}/bin/LPC1125/debug/LPC1125.elf",
-            "args": [],
-            "stopAtEntry": true,
-            "cwd": "${workspaceFolder}",
-            "environment": [],
-            "externalConsole": false,
-            "MIMode": "gdb",
-            "setupCommands": [
-                {
-                    "description": "Enable pretty-printing for gdb",
-                    "text": "-enable-pretty-printing",
-                    "ignoreFailures": true
-                },
-                {
-                    "description": "setup architecture",
-                    "text": "set architecture armv7"
-                },
-                {
-                    "description": "Load the file",
-                    "text": "file ${workspaceFolder}/bin/LPC1125/debug/LPC1125.elf"
-                },
-                {
-                    "description": "Connect to black magic probe",
-                    "text": "target extended-remote /dev/ttyACM0"
-                },
-                {
-                    "description": "scan SWD bus",
-                    "text": "monitor swdp_scan"
-                },
-                {
-                    "description": "attach to controller",
-                    "text": "attach 1"
-                },
-                {
-                    "description": "enable access to inaccessible memory",
-                    "text": "set mem inaccessible-by-default off"
-                },
-                {
-                    "description": "remap interrupt vectors to flash",
-                    "text": "set {int}0x40048000 = 2"
-                },
-                {
-                    "description": "program the elf file",
-                    "text": "load ${workspaceFolder}/bin/LPC1125/debug/LPC1125.elf"
-                },
-                {
-                    "description": "remap interrupt vectors to flash, again",
-                    "text": "set {int}0x40048000 = 2"
-                },
-                {
-                    "description": "check if everything went okay",
-                    "text": "compare-sections"
-                },
-            ],
-            "preLaunchTask": "build LPC1125 debug example",
-            "miDebuggerPath": "/home/abilos/programs/gcc-arm-none-eabi-9-2020-q2-update/bin//arm-none-eabi-gdb",
         },
         */
     ]
