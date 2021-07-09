@@ -14,7 +14,7 @@ include squantorLibEmbedded/squantorLibEmbedded.mk
 # project settings
 MCU = LPC844M201BD64
 TARGET = MCU
-BOARD = dummy_board
+BOARD = proto_board
 
 # project sources
 FILES += $(PROJECT)/src/main.cpp \

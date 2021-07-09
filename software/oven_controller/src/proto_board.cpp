@@ -6,12 +6,7 @@
  */
 #include <board.hpp>
 
-
-int main()
+void boardInit(void)
 {
-    boardInit();
-    while (1) 
-    {
-        __NOP();
-    }
+
 }
