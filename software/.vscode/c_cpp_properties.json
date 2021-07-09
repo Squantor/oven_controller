@@ -10,7 +10,8 @@
             ],
             "defines": [
                 "MCU_LPC844M201BD64",
-                "DEBUG"
+                "DEBUG",
+                "proto_board"
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": false,
