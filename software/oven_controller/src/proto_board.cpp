@@ -39,12 +39,14 @@ void boardInit(void)
     crudeDelay(6000);
     sysconExternalClockSelect(SYSCON, EXTCLKSEL_SYSOSC);
     sysconSysPllClockSelect(SYSCON, SYSPLLCLKSEL_EXTCLK);
-    // TODO FMC access
+    FlashControlFlashClocks(FLASHTIM_2_CLOCKS);
     // setup PLL
     sysconPowerDisable(SYSCON, PDRUNCFG_SYSPLL);
     sysconPllControl(SYSCON, 4, SYSPLLCTRL_POSTDIV_4);
     sysconPowerEnable(SYSCON, PDRUNCFG_SYSPLL);
-    while(!sysconPllStatus(SYSCON));
+    while (sysconPllStatus(SYSCON) == 0)
+        ;
+    sysconMainClockDivider(SYSCON, 2);
     sysconMainClockPllSelect(SYSCON, MAINCLKPLLSEL_SYSPLL);
     // disable all unneeded clocks
     sysconDisableClocks(SYSCON, CLKCTRL0_IOCON | CLKCTRL0_SWM, CLKCTRL1_NONE);

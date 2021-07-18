@@ -7,11 +7,13 @@
 #ifndef PROTO_BOARD_HPP
 #define PROTO_BOARD_HPP
 
+#define CLOCK_MAIN_SOURCE   SYSCTL_MAINCLKSRC_PLLOUT
+
 #define CLOCK_XTAL          (12000000u)
 #define CLOCK_EXT_IN        (0u)
-#define CLOCK_CPU           (12000000u)
-#define CLOCK_AHB           (12000000u)
-#define CLOCK_MAIN          (12000000u)
+#define CLOCK_CPU           (30000000u)
+#define CLOCK_AHB           (30000000u)
+#define CLOCK_MAIN          (60000000u)
 
 #include <mcu_ll.h>
 
@@ -28,6 +30,6 @@
 #define PIN_UART_RX         SWM_PORTPIN_P0_24
 
 #define UART_DEBUG          USART0
-#define UART_BAUD_RATE      (9600u)
+#define UART_BAUD_RATE      (115200u)
 
 #endif
