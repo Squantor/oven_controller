@@ -15,7 +15,7 @@
             "internalConsoleOptions": "openOnFirstSessionStart",
             "autorun": [
                 "file ${workspaceFolder}/bin/oven_controller/debug/oven_controller.elf",
-                "monitor tpwr enable",
+                //"monitor tpwr enable",
                 "sleep 1",
                 "monitor swdp_scan",
                 "attach 1",
