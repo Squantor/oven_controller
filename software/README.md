@@ -2,8 +2,8 @@
 The main firmware of the oven controller resides here
 ## Project list
 Here is a list of the various projects.
-* PC: template project for PC software development
-* LPC844M201BD64: template project for LPC844M201BD64 microcontroller
+* PC: template project for PC software development, going to be used for PC based unittests.
+* [oven_controller](oven_controller/README.md): template project for LPC844M201BD64 microcontroller
 ## Building
 There are multiple projects present in this directory. Invoking compilation of any project is done with the ```PROJECT``` variable that needs to be passed on, see the following example:
 ```
