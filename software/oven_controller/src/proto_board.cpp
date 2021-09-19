@@ -27,12 +27,12 @@ void boardInit(void)
     // setup GPIO pins
     ioconSetupPin(IOCON, IOCON_UART_RX, IOCON_MODE_PULLUP);
     ioconSetupPin(IOCON, IOCON_UART_TX, IOCON_MODE_INACTIVE);
-    SwmMovablePinAssign(SWM0, SWM_USART0_TXD, PIN_UART_TX);
-    SwmMovablePinAssign(SWM0, SWM_USART0_RXD, PIN_UART_RX);
+    SwmMovablePinAssign(SWM, SWM_USART0_TXD, PIN_UART_TX);
+    SwmMovablePinAssign(SWM, SWM_USART0_RXD, PIN_UART_RX);
     // setup crystal oscillator to run core at 12MHz
     ioconSetupPin(IOCON, IOCON_XTAL_IN, IOCON_MODE_INACTIVE);
     ioconSetupPin(IOCON, IOCON_XTAL_OUT, IOCON_MODE_INACTIVE);
-    swmEnableFixedPin(SWM0, SWM_EN0_XTALIN | SWM_EN0_XTALOUT, SWM_EN1_NONE);
+    swmEnableFixedPin(SWM, SWM_EN0_XTALIN | SWM_EN0_XTALOUT, SWM_EN1_NONE);
     sysconSysOscControl(SYSCON, SYSOSCCTRL_FREQ_1_20MHZ);
     sysconPowerEnable(SYSCON, PDRUNCFG_SYSOSC);
     // wait until crystal oscillator stabilizes
