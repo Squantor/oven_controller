@@ -24,10 +24,10 @@
 
 #define IOCON_UART_TX       IOCON_PIO0_25
 #define PORT_UART_TX        (0u)
-#define PIN_UART_TX         SWM_PORTPIN_P0_25
+#define SWM_UART_TX         SWM_PORTPIN_P0_25
 #define IOCON_UART_RX       IOCON_PIO0_24
 #define PORT_UART_RX        (0u)
-#define PIN_UART_RX         SWM_PORTPIN_P0_24
+#define SWM_UART_RX         SWM_PORTPIN_P0_24
 
 #define UART_DEBUG          USART0
 #define UART_BAUD_RATE      (115200u)
