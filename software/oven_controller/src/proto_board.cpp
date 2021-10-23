@@ -68,7 +68,7 @@ void boardInit(void)
     SctConfig(SCT0, SCT_CONFIG_16BIT_COUNTER | SCT_CONFIG_AUTOLIMIT_H);
     SctSetControl(SCT0, SCT_CTRL_BIDIR_H | SCT_CTRL_PRE_H(60-1));
     SctMatchReloadH(SCT0, SCT_MATCH_0, 5000);
-    SctMatchReloadH(SCT0, SCT_MATCH_1, 2500);
+    SctMatchReloadH(SCT0, SCT_MATCH_1, 4900);
     SctSetEventStateMask(SCT0, SCT_EVENT_0_VAL, SCT_STATE_ALL_BIT);
     SctSetEventControl(SCT0, SCT_EVENT_0_VAL, 
         SCT_EV_CTRL_COMBMODE(SCT_COMBMODE_MATCH) | 
