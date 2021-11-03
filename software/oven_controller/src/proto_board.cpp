@@ -21,6 +21,21 @@ void crudeDelay(uint32_t iterations)
     }
 }
 
+void setup50HzOutput(void)
+{
+    SctSetControl(SCT0, SCT_CTRL_BIDIR_H | SCT_CTRL_PRE_H(60-1));
+    SctMatchReloadH(SCT0, SCT_MATCH_0, 2500);
+    SctMatchReloadH(SCT0, SCT_MATCH_1, 2450);
+    SctSetEventStateMask(SCT0, SCT_EVENT_0_VAL, SCT_STATE_ALL_BIT);
+    SctSetEventControl(SCT0, SCT_EVENT_0_VAL, 
+        SCT_EV_CTRL_COMBMODE(SCT_COMBMODE_MATCH) | 
+        SCT_EV_CTRL_H_EVENT |
+        SCT_EV_CTRL_MATCHSEL(SCT_MATCH_1));
+    SctOutputSet(SCT0, SCT_OUTPUT_0_VALUE, SCT_EVENT_0_BIT);
+    SctOutputDirCtrl(SCT0, SCT_OUTPUTDIRCTRL(SCT_OUTPUT_0_VALUE, SCT_OUTPUTDIRCTRL_H));
+    SctClearControl(SCT0, SCT_CTRL_HALT_H);
+}
+
 void boardInit(void)
 {
     sysconEnableClocks(SYSCON, 
@@ -66,15 +81,7 @@ void boardInit(void)
     usartTXEnable(UART_DEBUG);
     // setup SCT
     SctConfig(SCT0, SCT_CONFIG_16BIT_COUNTER | SCT_CONFIG_AUTOLIMIT_H);
-    SctSetControl(SCT0, SCT_CTRL_BIDIR_H | SCT_CTRL_PRE_H(60-1));
-    SctMatchReloadH(SCT0, SCT_MATCH_0, 5000);
-    SctMatchReloadH(SCT0, SCT_MATCH_1, 4900);
-    SctSetEventStateMask(SCT0, SCT_EVENT_0_VAL, SCT_STATE_ALL_BIT);
-    SctSetEventControl(SCT0, SCT_EVENT_0_VAL, 
-        SCT_EV_CTRL_COMBMODE(SCT_COMBMODE_MATCH) | 
-        SCT_EV_CTRL_H_EVENT |
-        SCT_EV_CTRL_MATCHSEL(SCT_MATCH_1));
-    SctOutputSet(SCT0, SCT_OUTPUT_0_VALUE, SCT_EVENT_0_BIT);
-    SctOutputDirCtrl(SCT0, SCT_OUTPUTDIRCTRL(SCT_OUTPUT_0_VALUE, SCT_OUTPUTDIRCTRL_H));
-    SctClearControl(SCT0, SCT_CTRL_HALT_H);
+    setup50HzOutput();
+    // use SCT low to capture zero crossings
+    // and use the capture values to figure max and min duty cycles
 }
