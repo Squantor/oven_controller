@@ -23,9 +23,17 @@ void crudeDelay(uint32_t iterations)
 
 void setup50HzOutput(void)
 {
-    SctSetControl(SCT0, SCT_CTRL_BIDIR_H | SCT_CTRL_PRE_H(60-1));
-    SctMatchReloadH(SCT0, SCT_MATCH_0, 2500);
-    SctMatchReloadH(SCT0, SCT_MATCH_1, 2450);
+    SctSetControl(SCT0, 
+        SCT_CTRL_BIDIR_H | 
+        // TODO: change prescalers to use more bits of the 16bit timer
+        SCT_CTRL_PRE_H(30-1) | 
+        SCT_CTRL_PRE_L(60-1) |
+        SCT_CTRL_CLRCTR_H | 
+        SCT_CTRL_CLRCTR_L );
+    SctMatchH(SCT0, SCT_MATCH_0, 5000);
+    SctMatchReloadH(SCT0, SCT_MATCH_0, 5000);
+    SctMatchH(SCT0, SCT_MATCH_1, 4950);
+    SctMatchReloadH(SCT0, SCT_MATCH_1, 4950);
     SctSetEventStateMask(SCT0, SCT_EVENT_0_VAL, SCT_STATE_ALL_BIT);
     SctSetEventControl(SCT0, SCT_EVENT_0_VAL, 
         SCT_EV_CTRL_COMBMODE(SCT_COMBMODE_MATCH) | 
@@ -33,7 +41,6 @@ void setup50HzOutput(void)
         SCT_EV_CTRL_MATCHSEL(SCT_MATCH_1));
     SctOutputSet(SCT0, SCT_OUTPUT_0_VALUE, SCT_EVENT_0_BIT);
     SctOutputDirCtrl(SCT0, SCT_OUTPUTDIRCTRL(SCT_OUTPUT_0_VALUE, SCT_OUTPUTDIRCTRL_H));
-    SctClearControl(SCT0, SCT_CTRL_HALT_H);
 }
 
 void boardInit(void)
@@ -51,6 +58,7 @@ void boardInit(void)
     SwmMovablePinAssign(SWM, SWM_USART0_TXD, SWM_UART_TX);
     SwmMovablePinAssign(SWM, SWM_USART0_RXD, SWM_UART_RX);
     SwmMovablePinAssign(SWM, SWM_SCT_OUT0, SWM_TESTPIN0);
+    SwmMovablePinAssign(SWM, SWM_SCT_PIN0, SWM_TESTPIN0);
     // setup crystal oscillator to run core at 12MHz
     ioconSetupPin(IOCON, IOCON_XTAL_IN, IOCON_MODE_INACTIVE);
     ioconSetupPin(IOCON, IOCON_XTAL_OUT, IOCON_MODE_INACTIVE);
@@ -81,7 +89,17 @@ void boardInit(void)
     usartTXEnable(UART_DEBUG);
     // setup SCT
     SctConfig(SCT0, SCT_CONFIG_16BIT_COUNTER | SCT_CONFIG_AUTOLIMIT_H);
+    // if match 2 is reached, disable output and stop and reset the timer
+    SctMatchL(SCT0, SCT_MATCH_2, 6000);
+    SctMatchReloadL(SCT0, SCT_MATCH_2, 6000);
+    SctSetEventStateMask(SCT0, SCT_EVENT_2_VAL, SCT_STATE_ALL_BIT);
+    SctSetEventControl(SCT0, SCT_EVENT_2_VAL, 
+        SCT_EV_CTRL_COMBMODE(SCT_COMBMODE_MATCH) | 
+        SCT_EV_CTRL_L_EVENT |
+        SCT_EV_CTRL_MATCHSEL(SCT_MATCH_2));
+    
+    SctStopL(SCT0, SCT_EVENT_2_BIT);
+    SctLimitL(SCT0, SCT_EVENT_2_BIT);
     setup50HzOutput();
-    // use SCT low to capture zero crossings
-    // and use the capture values to figure max and min duty cycles
+    SctClearControl(SCT0, SCT_CTRL_HALT_L | SCT_CTRL_HALT_H);
 }
