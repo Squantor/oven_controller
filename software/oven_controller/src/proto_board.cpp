@@ -27,7 +27,7 @@ void setup50HzOutput(void)
         SCT_CTRL_BIDIR_H | 
         // TODO: change prescalers to use more bits of the 16bit timer
         SCT_CTRL_PRE_H(30-1) | 
-        SCT_CTRL_PRE_L(60-1) |
+        SCT_CTRL_PRE_L(30-1) |
         SCT_CTRL_CLRCTR_H | 
         SCT_CTRL_CLRCTR_L );
     SctMatchH(SCT0, SCT_MATCH_0, 5000);
@@ -55,10 +55,11 @@ void boardInit(void)
     ioconSetupPin(IOCON, IOCON_UART_RX, IOCON_MODE_PULLUP);
     ioconSetupPin(IOCON, IOCON_UART_TX, IOCON_MODE_INACTIVE);
     ioconSetupPin(IOCON, IOCON_TESTPIN0, IOCON_MODE_INACTIVE);
+    ioconSetupPin(IOCON, IOCON_ZEROCROSS, IOCON_MODE_PULLDOWN);
     SwmMovablePinAssign(SWM, SWM_USART0_TXD, SWM_UART_TX);
     SwmMovablePinAssign(SWM, SWM_USART0_RXD, SWM_UART_RX);
     SwmMovablePinAssign(SWM, SWM_SCT_OUT0, SWM_TESTPIN0);
-    SwmMovablePinAssign(SWM, SWM_SCT_PIN0, SWM_TESTPIN0);
+    SwmMovablePinAssign(SWM, SWM_SCT_PIN0, SWM_ZEROCROSS);
     // setup crystal oscillator to run core at 12MHz
     ioconSetupPin(IOCON, IOCON_XTAL_IN, IOCON_MODE_INACTIVE);
     ioconSetupPin(IOCON, IOCON_XTAL_OUT, IOCON_MODE_INACTIVE);
@@ -89,17 +90,39 @@ void boardInit(void)
     usartTXEnable(UART_DEBUG);
     // setup SCT
     SctConfig(SCT0, SCT_CONFIG_16BIT_COUNTER | SCT_CONFIG_AUTOLIMIT_H);
+
     // if match 2 is reached, disable output and stop and reset the timer
     SctMatchL(SCT0, SCT_MATCH_2, 6000);
     SctMatchReloadL(SCT0, SCT_MATCH_2, 6000);
-    SctSetEventStateMask(SCT0, SCT_EVENT_2_VAL, SCT_STATE_ALL_BIT);
+    // assign event 2 to match 2
     SctSetEventControl(SCT0, SCT_EVENT_2_VAL, 
         SCT_EV_CTRL_COMBMODE(SCT_COMBMODE_MATCH) | 
         SCT_EV_CTRL_L_EVENT |
         SCT_EV_CTRL_MATCHSEL(SCT_MATCH_2));
-    
-    SctStopL(SCT0, SCT_EVENT_2_BIT);
-    SctLimitL(SCT0, SCT_EVENT_2_BIT);
+    SctSetEventStateMask(SCT0, SCT_EVENT_2_VAL, SCT_STATE_ALL_BIT);
+    // TODO: Disable triac control output
+
+    // if we get a negative edge on the input, start the timer
+    // assign timer restart to event 3
+    SctSetEventControl(SCT0, SCT_EVENT_3_VAL, 
+        SCT_EV_CTRL_INSEL | 
+        SCT_EV_CTRL_IOSEL(0) | 
+        SCT_EV_CTRL_IOCOND(SCT_IOCOND_FALL) |
+        SCT_EV_CTRL_COMBMODE(SCT_COMBMODE_IO) );
+    SctSetEventStateMask(SCT0, SCT_EVENT_3_VAL, SCT_STATE_ALL_BIT);
+    // if we get a positive edge on the input, stop and clear the timer
+    // assign timer stop to event 4
+    SctSetEventControl(SCT0, SCT_EVENT_4_VAL, 
+        SCT_EV_CTRL_INSEL | 
+        SCT_EV_CTRL_IOSEL(0) | 
+        SCT_EV_CTRL_IOCOND(SCT_IOCOND_RISE) |
+        SCT_EV_CTRL_COMBMODE(SCT_COMBMODE_IO) );
+    SctSetEventStateMask(SCT0, SCT_EVENT_4_VAL, SCT_STATE_ALL_BIT);
+
+    SctStartL(SCT0, SCT_EVENT_3_BIT);
+    SctStopL(SCT0, SCT_EVENT_2_BIT | SCT_EVENT_4_BIT);
+    SctLimitL(SCT0, SCT_EVENT_4_BIT);
+
     setup50HzOutput();
     SctClearControl(SCT0, SCT_CTRL_HALT_L | SCT_CTRL_HALT_H);
 }
