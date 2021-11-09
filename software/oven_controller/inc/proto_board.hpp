@@ -64,4 +64,10 @@
 #define PIN_ZEROCROSS       (29u)
 #define SWM_ZEROCROSS       (SWM_PORTPIN_P0_29)
 
+// Triac control output pin
+#define IOCON_TRIAC         (IOCON_PIO0_28)
+#define PORT_TRIAC          (GPIO_PORT0)
+#define PIN_TRIAC           (28u)
+#define SWM_TRIAC           (SWM_PORTPIN_P0_28)
+
 #endif
