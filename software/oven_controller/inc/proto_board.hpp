@@ -59,15 +59,15 @@
 #define SWM_TESTPIN4        (SWM_PORTPIN_P1_20)
 
 // Zero cross detector input pin
-#define IOCON_ZEROCROSS     (IOCON_PIO0_29)
+#define IOCON_ZEROCROSS     (IOCON_PIO0_1)
 #define PORT_ZEROCROSS      (GPIO_PORT0)
-#define PIN_ZEROCROSS       (29u)
-#define SWM_ZEROCROSS       (SWM_PORTPIN_P0_29)
+#define PIN_ZEROCROSS       (1u)
+#define SWM_ZEROCROSS       (SWM_PORTPIN_P0_1)
 
 // Triac control output pin
-#define IOCON_TRIAC         (IOCON_PIO0_28)
-#define PORT_TRIAC          (GPIO_PORT0)
-#define PIN_TRIAC           (28u)
-#define SWM_TRIAC           (SWM_PORTPIN_P0_28)
+#define IOCON_TRIAC         (IOCON_PIO1_4)
+#define PORT_TRIAC          (GPIO_PORT1)
+#define PIN_TRIAC           (4u)
+#define SWM_TRIAC           (SWM_PORTPIN_P1_4)
 
 #endif
