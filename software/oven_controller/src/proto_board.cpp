@@ -55,11 +55,12 @@ void boardInit(void)
     ioconSetupPin(IOCON, IOCON_UART_RX, IOCON_MODE_PULLUP);
     ioconSetupPin(IOCON, IOCON_UART_TX, IOCON_MODE_INACTIVE);
     ioconSetupPin(IOCON, IOCON_TESTPIN0, IOCON_MODE_INACTIVE);
-    ioconSetupPin(IOCON, IOCON_ZEROCROSS, IOCON_MODE_PULLDOWN);
+    ioconSetupPin(IOCON, IOCON_ZEROCROSS, IOCON_MODE_INACTIVE);
     SwmMovablePinAssign(SWM, SWM_USART0_TXD, SWM_UART_TX);
     SwmMovablePinAssign(SWM, SWM_USART0_RXD, SWM_UART_RX);
     SwmMovablePinAssign(SWM, SWM_SCT_OUT0, SWM_TESTPIN0);
     SwmMovablePinAssign(SWM, SWM_SCT_PIN0, SWM_ZEROCROSS);
+    inputMuxSct(INPUTMUX, SCT_INMUX_INPUT_0, SCT_MUX_PIN0);
     // setup crystal oscillator to run core at 12MHz
     ioconSetupPin(IOCON, IOCON_XTAL_IN, IOCON_MODE_INACTIVE);
     ioconSetupPin(IOCON, IOCON_XTAL_OUT, IOCON_MODE_INACTIVE);
@@ -124,5 +125,6 @@ void boardInit(void)
     SctLimitL(SCT0, SCT_EVENT_4_BIT);
 
     setup50HzOutput();
+    SctSetControl(SCT0, SCT_CTRL_STOP_L);
     SctClearControl(SCT0, SCT_CTRL_HALT_L | SCT_CTRL_HALT_H);
 }
