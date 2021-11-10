@@ -122,7 +122,7 @@ void boardInit(void)
 
     SctStartL(SCT0, SCT_EVENT_3_BIT);
     SctStopL(SCT0, SCT_EVENT_2_BIT | SCT_EVENT_4_BIT);
-    SctLimitL(SCT0, SCT_EVENT_4_BIT);
+    SctLimitL(SCT0, SCT_EVENT_3_BIT);
 
     setup50HzOutput();
     SctSetControl(SCT0, SCT_CTRL_STOP_L);
