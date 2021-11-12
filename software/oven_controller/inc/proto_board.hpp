@@ -70,4 +70,23 @@
 #define PIN_TRIAC           (4u)
 #define SWM_TRIAC           (SWM_PORTPIN_P1_4)
 
+// User Interface I2C interface
+#define IOCON_UI_SDA        (IOCON_PIO0_11)
+#define PORT_UI_SDA         (GPIO_PORT0)
+#define PIN_UI_SDA          (11u)
+#define SWM_UI_SDA          (SWM_PORTPIN_P0_11)
+#define IOCON_UI_SCL        (IOCON_PIO0_10)
+#define PORT_UI_SCL         (GPIO_PORT0)
+#define PIN_UI_SCL          (10u)
+#define SWM_UI_SCL          (SWM_PORTPIN_P0_10)
+
+// User interface interrupt pin
+#define IOCON_UI_INT        (IOCON_PIO1_1)
+#define PORT_UI_INT         (GPIO_PORT1)
+#define PIN_UI_INT          (1u)
+#define SWM_UI_INT          (SWM_PORTPIN_P1_1)
+
+
+
+
 #endif
