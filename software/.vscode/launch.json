@@ -16,7 +16,7 @@
             "autorun": [
                 "file ${workspaceFolder}/bin/oven_controller/debug/oven_controller.elf",
                 //"monitor tpwr enable",
-                "sleep 1",
+                "shell sleep 1",
                 "monitor swdp_scan",
                 "attach 1",
                 "set mem inaccessible-by-default off",
