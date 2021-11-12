@@ -49,7 +49,8 @@ void boardInit(void)
         CLKCTRL0_UART0 | 
         CLKCTRL0_IOCON | 
         CLKCTRL0_SWM |
-        CLKCTRL0_SCT , 
+        CLKCTRL0_SCT |
+        CLKCTRL0_I2C0 , 
         CLKCTRL1_NONE);
     // setup GPIO pins
     ioconSetupPin(IOCON, IOCON_UART_RX, IOCON_MODE_PULLUP);
@@ -57,6 +58,9 @@ void boardInit(void)
     ioconSetupPin(IOCON, IOCON_TESTPIN0, IOCON_MODE_INACTIVE);
     ioconSetupPin(IOCON, IOCON_ZEROCROSS, IOCON_MODE_INACTIVE);
     ioconSetupPin(IOCON, IOCON_TRIAC, IOCON_MODE_INACTIVE);
+    ioconSetupPin(IOCON, IOCON_UI_INT, IOCON_MODE_PULLUP);
+    ioconSetupPin(IOCON, IOCON_UI_SCL, IOCON_I2CMODE_STD);
+    ioconSetupPin(IOCON, IOCON_UI_SDA, IOCON_I2CMODE_STD);
     SwmMovablePinAssign(SWM, SWM_USART0_TXD, SWM_UART_TX);
     SwmMovablePinAssign(SWM, SWM_USART0_RXD, SWM_UART_RX);
     SwmMovablePinAssign(SWM, SWM_SCT_OUT0, SWM_TESTPIN0);
@@ -66,7 +70,11 @@ void boardInit(void)
     // setup crystal oscillator to run core at 12MHz
     ioconSetupPin(IOCON, IOCON_XTAL_IN, IOCON_MODE_INACTIVE);
     ioconSetupPin(IOCON, IOCON_XTAL_OUT, IOCON_MODE_INACTIVE);
-    swmEnableFixedPin(SWM, SWM_EN0_XTALIN | SWM_EN0_XTALOUT, SWM_EN1_NONE);
+    swmEnableFixedPin(SWM, 
+        SWM_EN0_XTALIN |
+        SWM_EN0_XTALOUT | 
+        SWM_EN0_I2C0_SCL | 
+        SWM_EN0_I2C0_SDA , SWM_EN1_NONE);
     sysconSysOscControl(SYSCON, SYSOSCCTRL_FREQ_1_20MHZ);
     sysconPowerEnable(SYSCON, PDRUNCFG_SYSOSC);
     // wait until crystal oscillator stabilizes
@@ -143,4 +151,10 @@ void boardInit(void)
     setup50HzOutput();
     SctSetControl(SCT0, SCT_CTRL_STOP_L);
     SctClearControl(SCT0, SCT_CTRL_HALT_L | SCT_CTRL_HALT_H);
+
+    // setup external interrupt on negative edges
+    // setup i2c core
+    sysconPeripheralClockSelect(SYSCON, I2C0CLKSEL, CLKSRC_MAIN);
+    i2cSetClockDivider(I2C0, 5);
+    i2cSetConfiguration(I2C0, I2C_CFG_MSTEN);
 }
