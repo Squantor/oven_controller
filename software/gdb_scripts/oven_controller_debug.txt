@@ -1,7 +1,7 @@
 file bin/oven_controller/debug/oven_controller.elf
 target extended-remote /dev/ttyACM0
-monitor tpwr enable
-shell sleep 1
+#monitor tpwr enable
+#shell sleep 1
 monitor swdp_scan
 attach 1
 set mem inaccessible-by-default off

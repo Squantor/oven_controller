@@ -34,19 +34,6 @@ int main()
             {
                 pwm_value = 0;
             }
-            i2cSetMasterData(I2C0, 0x43);
-            i2cSetMasterControl(I2C0, I2C_MSCTL_MSTSTART);
-            uint32_t i2cStatus;
-            do {
-                __NOP();
-                i2cStatus = i2cGetStatus(I2C0);
-            } while (I2C_STAT_MSTSTATE(i2cStatus) != I2C_STAT_MSSTATE_RECEIVE_READY);
-            volatile uint8_t data = i2cGetMasterData(I2C0);
-            i2cSetMasterControl(I2C0, I2C_MSCTL_MSTSTOP);
-                do {
-                __NOP();
-                i2cStatus = i2cGetStatus(I2C0);
-            } while (I2C_STAT_MSTSTATE(i2cStatus) != I2C_STAT_MSSTATE_IDLE);
         }
     }
 }
